@@ -1,11 +1,22 @@
 from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, declarative_base
 
-engine = create_engine("sqlite:///winbig.db", echo=True)
-SessionLocal = sessionmaker(bind=engine)
+# SQLite for local dev — replace with PostgreSQL URL for production
+DATABASE_URL = "sqlite:///./winbig.db"
+
+# Create engine
+engine = create_engine(
+    DATABASE_URL,
+    connect_args={"check_same_thread": False}  # Needed for SQLite
+)
+
+# Create session
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+# Base model registry
 Base = declarative_base()
 
+# Dependency for routes
 def get_db():
     db = SessionLocal()
     try:
