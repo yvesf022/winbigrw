@@ -1,9 +1,9 @@
 from pydantic import BaseModel, EmailStr, validator
 from datetime import date
-from typing import List, Optional
+from typing import List
 import phonenumbers
 
-# ✅ User schemas with email and phone validation
+# ✅ User schemas
 class UserCreate(BaseModel):
     email: EmailStr
     password: str
@@ -25,7 +25,7 @@ class UserOut(BaseModel):
     phone: str
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 # ✅ Ticket schemas
 class TicketCreate(BaseModel):
@@ -38,7 +38,7 @@ class TicketOut(BaseModel):
     status: str
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 # ✅ Draw schemas
 class DrawCreate(BaseModel):
@@ -46,7 +46,7 @@ class DrawCreate(BaseModel):
     winning_numbers: List[int]
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class DrawOut(BaseModel):
     id: int
@@ -54,4 +54,4 @@ class DrawOut(BaseModel):
     winning_numbers: List[int]
 
     class Config:
-        orm_mode = True
+        from_attributes = True
